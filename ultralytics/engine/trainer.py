@@ -799,11 +799,20 @@ class BaseTrainer:
             optimizer = optim.RMSprop(g[2], lr=lr, momentum=momentum)
         elif name == "SGD":
             optimizer = optim.SGD(g[2], lr=lr, momentum=momentum, nesterov=True)
+        elif name == "ASGD":
+            optimizer = optim.ASGD(g[2])
+        elif name == "AdaBelief":
+            optimizer = torch_optim.AdaBelief(g[2]) 
+        elif name == "Apollo":
+            optimizer = torch_optim.Apollo(g[2])  
+        elif name == "Ranger":
+            optimizer = torch_optim.Ranger(g[2]) 
         else:
             raise NotImplementedError(
                 f"Optimizer '{name}' not found in list of available optimizers {optimizers}. "
                 "Request support for addition optimizers at https://github.com/ultralytics/ultralytics."
             )
+            
 
         optimizer.add_param_group({"params": g[0], "weight_decay": decay})  # add g0 with weight_decay
         optimizer.add_param_group({"params": g[1], "weight_decay": 0.0})  # add g1 (BatchNorm2d weights)
