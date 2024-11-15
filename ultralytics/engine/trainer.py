@@ -20,7 +20,7 @@ import numpy as np
 import torch
 from torch import distributed as dist
 from torch import nn, optim
-
+import torch_optimizer as torch_optim
 from ultralytics.cfg import get_cfg, get_save_dir
 from ultralytics.data.utils import check_cls_dataset, check_det_dataset
 from ultralytics.nn.tasks import attempt_load_one_weight, attempt_load_weights
