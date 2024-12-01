@@ -212,8 +212,8 @@ class BaseTrainer:
             self.lf = one_cycle(1, self.args.lrf, self.epochs)  # cosine 1->hyp['lrf']
         else:
             self.lf = lambda x: max(1 - x / self.epochs, 0) * (1.0 - self.args.lrf) + self.args.lrf  # linear
-        self.scheduler = optim.lr_scheduler.MultiplicativeLR(self.optimizer, lr_lambda=self.lf)
-
+         self.scheduler = optim.lr_scheduler.CyclicLR(self.optimizer, base_lr=0.001, max_lr=0.1,step_size_up=5,mode="exp_range",gamma=0.85)
+   
     def _setup_ddp(self, world_size):
         """Initializes and sets the DistributedDataParallel parameters for training."""
         torch.cuda.set_device(RANK)
