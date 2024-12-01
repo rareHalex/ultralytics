@@ -213,10 +213,8 @@ class BaseTrainer:
         else:
             self.lf = lambda x: max(1 - x / self.epochs, 0) * (1.0 - self.args.lrf) + self.args.lrf  # linear
 
-        scheduler1 = optim.lr_scheduler.ConstantLR(self.optimizer, factor=0.1, total_iters=2)
-        scheduler2 = optim.lr_scheduler.ExponentialLR(self.optimizer, gamma=0.9)
-        self.scheduler = optim.lr_scheduler.ChainedScheduler([scheduler1, scheduler2], optimizer=self.optimizer)
-   
+        self.scheduler = optim.lr_scheduler.ExponentialLR(self.optimizer, gamma=0.99)
+
     def _setup_ddp(self, world_size):
         """Initializes and sets the DistributedDataParallel parameters for training."""
         torch.cuda.set_device(RANK)
